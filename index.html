@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MK APK STORE</title>
+  <style>
+    :root {
+      --bg-url: url('https://i.imgur.com/chrRge6.jpeg');
+    }
+
+    html, body {
+      margin: 0;
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-image: var(--bg-url);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: #fff;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: 0;
+    }
+
+    #page-content {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
+      box-sizing: border-box;
+    }
+
+    header {
+      text-align: center;
+      font-size: 2.8rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      background: linear-gradient(90deg, #ff0055, #ffcc00, #00ccff, #00ff88, #ff0055);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientShift 8s ease infinite;
+      user-select: none;
+      margin-bottom: 1rem;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      max-width: 800px;
+      width: 100%;
+      border-radius: 10px;
+      padding: 1rem;
+      backdrop-filter: blur(4px);
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .search-bar {
+      margin-bottom: 1rem;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      font-size: 1.2rem;
+      border: 3px solid transparent;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      font-weight: 600;
+      outline: none;
+      box-sizing: border-box;
+    }
+
+    .search-bar input::placeholder {
+      color: #ccc;
+      font-style: italic;
+    }
+
+    .apk-card {
+      display: flex;
+      align-items: center;
+      margin: 1rem 0;
+      padding: 1rem;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(4px);
+      transition: 0.3s ease;
+    }
+
+    .apk-logo {
+      width: 60px;
+      height: 60px;
+      margin-right: 1rem;
+      object-fit: contain;
+    }
+
+    .apk-info {
+      flex: 1;
+    }
+
+    .apk-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin: 0 0 0.3rem;
+    }
+
+    .apk-meta {
+      font-size: 0.9rem;
+      color: #ddd;
+    }
+
+    .download-btn {
+      padding: 0.5rem 1rem;
+      background: linear-gradient(135deg, #ff0055, #ff9900, #00b894);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: bold;
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+    }
+
+    .download-btn:hover {
+      background: linear-gradient(135deg, #00b894, #ff9900, #ff0055);
+      transform: scale(1.05);
+    }
+
+    .offline-msg {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.85);
+      z-index: 9999;
+      text-align: center;
+    }
+
+    .offline-msg span {
+      font-size: 2rem;
+      color: #fff;
+      margin-bottom: 1rem;
+      font-weight: bold;
+    }
+
+    .retry-btn {
+      padding: 0.6rem 1.5rem;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 30px;
+      background-color: #ff5555;
+      color: #fff;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #not-found {
+      color: #ffcccc;
+      text-align: center;
+      font-weight: bold;
+      margin-top: 1rem;
+      font-size: 1.8rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="offline-msg" id="offlineMsg">
+    <span>🚫 NO INTERNET CONNECTION</span>
+    <button class="retry-btn" onclick="location.reload()">Try Again</button>
+  </div>
+
+  <div id="page-content">
+    <header>MK APK STORE</header>
+    <div class="container">
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search APK...">
+      </div>
+
+      <!-- Sample APK cards -->
+      <div class="apk-card">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/7/75/YouTube_social_white_squircle.svg" class="apk-logo" alt="YouTube Logo" />
+        <div class="apk-info">
+          <div class="apk-title">YouTube</div>
+          <div class="apk-meta">Version: 18.21.34 | Size: 30MB</div>
+        </div>
+        <a href="https://example.com/youtube.apk" class="download-btn" target="_blank">Download</a>
+      </div>
+
+      <div class="apk-card">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="apk-logo" alt="WhatsApp Logo" />
+        <div class="apk-info">
+          <div class="apk-title">WhatsApp</div>
+          <div class="apk-meta">Version: 2.23.5 | Size: 40MB</div>
+        </div>
+        <a href="https://example.com/whatsapp.apk" class="download-btn" target="_blank">Download</a>
+      </div>
+
+      <div class="apk-card">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/TikTok_logo.svg" class="apk-logo" alt="TikTok Logo" />
+        <div class="apk-info">
+          <div class="apk-title">TikTok</div>
+          <div class="apk-meta">Version: 28.3.1 | Size: 90MB</div>
+        </div>
+        <a href="https://example.com/tiktok.apk" class="download-btn" target="_blank">Download</a>
+      </div>
+
+      <div id="not-found" style="display: none;">😫 APK NOT FOUND</div>
+    </div>
+  </div>
+
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const apkCards = document.querySelectorAll('.apk-card');
+    const notFoundMsg = document.getElementById('not-found');
+    const offlineMsg = document.getElementById('offlineMsg');
+
+    searchInput.addEventListener('input', () => {
+      const value = searchInput.value.trim().toLowerCase();
+      let found = false;
+
+      apkCards.forEach(card => {
+        const title = card.querySelector('.apk-title').textContent.trim().toLowerCase();
+        if (title.startsWith(value) || value === '') {
+          card.style.display = 'flex';
+          found = true;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      notFoundMsg.style.display = (!found && value !== '') ? 'block' : 'none';
+    });
+
+    function checkConnection() {
+      if (!navigator.onLine) {
+        offlineMsg.style.display = 'flex';
+        document.querySelector('.container').style.display = 'none';
+      } else {
+        offlineMsg.style.display = 'none';
+        document.querySelector('.container').style.display = 'block';
+      }
+    }
+
+    window.addEventListener('load', checkConnection);
+    window.addEventListener('online', checkConnection);
+    window.addEventListener('offline', checkConnection);
+  </script>
+</body>
+</html>
