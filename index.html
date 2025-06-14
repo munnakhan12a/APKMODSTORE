@@ -181,6 +181,19 @@
       font-weight: bold;
       margin-top: 1rem;
       font-size: 1.8rem;
+      display: none;
+    }
+
+    #loader {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 1.5rem;
+      display: none;
+      z-index: 999;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -190,6 +203,8 @@
     <button class="retry-btn" onclick="location.reload()">Try Again</button>
   </div>
 
+  <div id="loader">🔄 Refreshing...</div>
+
   <div id="page-content">
     <header>MK APK STORE</header>
     <div class="container">
@@ -197,9 +212,9 @@
         <input type="text" id="searchInput" placeholder="Search APK...">
       </div>
 
-      <!-- Sample APK cards -->
+      <!-- APK Cards -->
       <div class="apk-card">
-        <img src="https://i.imgur.com/e1bHUHo.jpeg" class="apk-logo" alt="Greentubervip Logo" />
+        <img src="https://i.imgur.com/e1bHUHo.jpeg" class="apk-logo" alt="GreenTuber Logo" />
         <div class="apk-info">
           <div class="apk-title">GreenTuber Vip</div>
           <div class="apk-meta">Version: 18.21.34 | Size: 15.7MB</div>
@@ -225,7 +240,7 @@
         <a href="https://example.com/tiktok.apk" class="download-btn" target="_blank">Download</a>
       </div>
 
-      <div id="not-found" style="display: none;">😫 APK NOT FOUND</div>
+      <div id="not-found">😫 APK NOT FOUND</div>
     </div>
   </div>
 
@@ -234,22 +249,29 @@
     const apkCards = document.querySelectorAll('.apk-card');
     const notFoundMsg = document.getElementById('not-found');
     const offlineMsg = document.getElementById('offlineMsg');
+    const loader = document.getElementById('loader');
 
     searchInput.addEventListener('input', () => {
       const value = searchInput.value.trim().toLowerCase();
       let found = false;
 
-      apkCards.forEach(card => {
-        const title = card.querySelector('.apk-title').textContent.trim().toLowerCase();
-        if (title.startsWith(value) || value === '') {
+      if (value === '') {
+        apkCards.forEach(card => {
           card.style.display = 'flex';
-          found = true;
-        } else {
-          card.style.display = 'none';
-        }
-      });
-
-      notFoundMsg.style.display = (!found && value !== '') ? 'block' : 'none';
+        });
+        notFoundMsg.style.display = 'none';
+      } else {
+        apkCards.forEach(card => {
+          const title = card.querySelector('.apk-title').textContent.trim().toLowerCase();
+          if (title.startsWith(value)) {
+            card.style.display = 'flex';
+            found = true;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+        notFoundMsg.style.display = found ? 'none' : 'block';
+      }
     });
 
     function checkConnection() {
@@ -261,6 +283,32 @@
         document.querySelector('.container').style.display = 'block';
       }
     }
+
+    // Swipe to refresh on mobile
+    let startY = 0;
+    let isPulled = false;
+
+    document.addEventListener('touchstart', (e) => {
+      if (window.scrollY === 0) startY = e.touches[0].clientY;
+    });
+
+    document.addEventListener('touchmove', (e) => {
+      const y = e.touches[0].clientY;
+      if (y - startY > 100 && !isPulled) {
+        isPulled = true;
+        loader.style.display = 'block';
+        setTimeout(() => {
+          location.reload();
+        }, 1000);
+      }
+    });
+
+    document.addEventListener('touchend', () => {
+      setTimeout(() => {
+        isPulled = false;
+        loader.style.display = 'none';
+      }, 1000);
+    });
 
     window.addEventListener('load', checkConnection);
     window.addEventListener('online', checkConnection);
